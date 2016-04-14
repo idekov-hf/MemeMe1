@@ -36,29 +36,16 @@ class MemeEditorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        topTextField.delegate = self
-        bottomTextField.delegate = self
-        
-        topTextField.defaultTextAttributes = memeTextAttributes
-        bottomTextField.defaultTextAttributes = memeTextAttributes
-        
-        topTextField.textAlignment = .Center
-        bottomTextField.textAlignment = .Center
-        
-        topTextField.text = defaultTopText
-        bottomTextField.text = defaultBottomText
+        initTextField(topTextField)
+        initTextField(bottomTextField)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(.Camera)
         
-        if imageView.image == nil {
-            shareButton.enabled = false
-        }
-        else {
-            shareButton.enabled = true
-        }
+        // Ternary operator for enabled state of the shareButton
+        shareButton.enabled = imageView.image == nil ? false : true
         
         // Subscribe to keyboard notifications to allow the view to raise when necessary
         subscribeToKeyboardNotifications()
@@ -86,6 +73,23 @@ class MemeEditorViewController: UIViewController {
         presentViewController(imagePickerController, animated: true, completion: nil)
     }
     
+    // Initialize the properties of the given textfield
+    // ie. (set the delegate, text attributes, alignment, and default text)
+    func initTextField(textField: UITextField) {
+        textField.delegate = self
+        
+        textField.defaultTextAttributes = memeTextAttributes
+        
+        textField.textAlignment = .Center
+        
+        if textField == topTextField {
+            topTextField.text = defaultTopText
+        }
+        else if textField == bottomTextField{
+            bottomTextField.text = defaultBottomText
+        }
+    }
+    
     // Observe UIKeyboardWillShowNotifications
     func subscribeToKeyboardNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow), name: UIKeyboardWillShowNotification, object: nil)
@@ -107,9 +111,7 @@ class MemeEditorViewController: UIViewController {
     
     // Move the view back to its original position
     func keyboardWillHide(notification: NSNotification) {
-        if bottomTextField.isFirstResponder() {
-            view.frame.origin.y += getKeyboardHeight(notification)
-        }
+        view.frame.origin.y = 0
     }
     
     // Return the height of the keyboard
@@ -131,8 +133,8 @@ class MemeEditorViewController: UIViewController {
         toolbar.hidden = true
         
         // Render view to an image
-        UIGraphicsBeginImageContext(self.view.frame.size)
-        view.drawViewHierarchyInRect(self.view.frame,
+        UIGraphicsBeginImageContext(view.frame.size)
+        view.drawViewHierarchyInRect(view.frame,
                                      afterScreenUpdates: true)
         let image : UIImage =
             UIGraphicsGetImageFromCurrentImageContext()
