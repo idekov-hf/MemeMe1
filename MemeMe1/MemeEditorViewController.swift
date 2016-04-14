@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MemeEditorViewController.swift
 //  MemeMe1
 //
 //  Created by Iavor Dekov on 4/14/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MemeEditorViewController: UIViewController {
     
     // MARK: IBOutlets and Properties
     @IBOutlet weak var topTextField: UITextField!
@@ -67,7 +67,7 @@ class ViewController: UIViewController {
     // Unsubscribe
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.unsubscribeFromKeyboardNotifications()
+        unsubscribeFromKeyboardNotifications()
     }
     
     // Pick an image
@@ -172,7 +172,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: UIImagePickerController Delegate Methods
-extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension MemeEditorViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         dismissViewControllerAnimated(true, completion: nil)
@@ -188,7 +188,7 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
 }
 
 // MARK: UITextFieldDelegate Methods
-extension ViewController: UITextFieldDelegate {
+extension MemeEditorViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(textField: UITextField) {
         if textField.text == defaultTopText || textField.text == defaultBottomText {
