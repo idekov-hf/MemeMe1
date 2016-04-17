@@ -15,4 +15,8 @@ struct Meme {
     var originalImage: UIImage
     var memedImage: UIImage
     
+    func getMemeText() -> String {
+        return "\(topText)...\(bottomText)"
+    }
+    
 }
