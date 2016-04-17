@@ -171,6 +171,7 @@ class MemeEditorViewController: UIViewController {
         bottomTextField.text = defaultBottomText
         imageView.image = nil
         shareButton.enabled = false
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     
