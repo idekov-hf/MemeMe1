@@ -36,8 +36,8 @@ class MemeEditorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initTextField(topTextField)
-        initTextField(bottomTextField)
+        initTextField(topTextField, defaultText: defaultTopText)
+        initTextField(bottomTextField, defaultText: defaultBottomText)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -75,19 +75,14 @@ class MemeEditorViewController: UIViewController {
     
     // Initialize the properties of the given textfield
     // ie. (set the delegate, text attributes, alignment, and default text)
-    func initTextField(textField: UITextField) {
+    func initTextField(textField: UITextField, defaultText: String) {
         textField.delegate = self
         
         textField.defaultTextAttributes = memeTextAttributes
         
         textField.textAlignment = .Center
         
-        if textField == topTextField {
-            topTextField.text = defaultTopText
-        }
-        else if textField == bottomTextField{
-            bottomTextField.text = defaultBottomText
-        }
+        textField.text = defaultText
     }
     
     // Observe UIKeyboardWillShowNotifications
